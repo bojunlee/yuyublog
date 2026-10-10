@@ -99,7 +99,7 @@ export function socialLinks(socials = {}) {
     .map(([k, m]) => {
       const href = m.url(String(socials[k]).trim());
       if (!/^(https:|mailto:)/.test(href)) return "";
-      return `<a href="${esc(href)}" ${k === "email" ? "" : 'target="_blank" rel="noopener noreferrer"'} aria-label="${m.label}">${icon(k === "email" ? "mail" : k)}</a>`;
+      return `<a class="soc soc--${k}" href="${esc(href)}" ${k === "email" ? "" : 'target="_blank" rel="noopener noreferrer"'} aria-label="${m.label}">${icon(k === "email" ? "mail" : k)}</a>`;
     }).join("");
 }
 

@@ -351,6 +351,15 @@ body.nav-open { overflow: hidden; }
   transition: background var(--d-fast) var(--ease), border-color var(--d-fast) var(--ease), transform var(--d-fast) var(--ease);
 }
 .socials a:hover { background: var(--on-dark); color: var(--ocean-deep); border-color: var(--on-dark); transform: translateY(-2px); }
+/* 各平台品牌色：圓形底色 + 白色圖示（白字對比皆 ≥ 4.5:1） */
+.socials a.soc { color: #fff; border-color: transparent; }
+.socials a.soc--instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%); }
+.socials a.soc--facebook { background: #1877f2; }
+.socials a.soc--threads { background: #101010; }
+.socials a.soc--youtube { background: #e00000; }
+.socials a.soc--email { background: var(--sunset); }
+.socials a.soc:hover { color: #fff; border-color: transparent; filter: brightness(1.12); transform: translateY(-2px); }
+.about-hero .socials a.soc, .about-hero .socials a.soc:hover { color: #fff; border-color: transparent; }
 .footer-quote { font-family: var(--f-hand); font-size: var(--t-lg); color: var(--on-dark); margin-top: var(--s-4); }
 .footer-bottom {
   display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s-3);
