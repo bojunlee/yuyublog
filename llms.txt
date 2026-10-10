@@ -1,0 +1,12 @@
+# 魚魚出去玩
+
+> 吃美食、看風景，收集世界的溫柔。魚魚（榆芳）的個人旅遊與生活網站，內容包含國內外旅遊景點、美食餐廳與咖啡廳、度假住宿，以及日常生活紀錄。夢想是環遊世界。所有文字與照片皆為作者原創。
+
+## 網站
+- [首頁](https://bojunlee.github.io/yuyublog/): 精選文章與最新內容
+- [所有文章](https://bojunlee.github.io/yuyublog/posts.html): 依分類（旅遊、美食、度假、生活）瀏覽與搜尋
+- [旅行足跡](https://bojunlee.github.io/yuyublog/footprints.html): 去過的國家與城市，以及想去的地方
+- [關於魚魚](https://bojunlee.github.io/yuyublog/about.html): 作者介紹與旅行理念
+
+## 文章
+- [宿霧 3 天 2 夜｜跳島、海景度假村與在地小吃，輕鬆放空的小旅行](https://bojunlee.github.io/yuyublog/p/0a8662c6-b5af-45a8-a8e5-1b82d6a42835.html)：週五下班飛宿霧，週日傍晚回家。這趟沒有趕行程：一天跳島、一天躺在海景泳池邊，剩下的時間都留給在地小吃。
