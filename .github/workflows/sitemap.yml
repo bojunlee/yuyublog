@@ -1,0 +1,39 @@
+# 每天自動更新 sitemap.xml（讀取公開網站上「已發布」的文章，不會碰草稿）
+# 只會修改 sitemap.xml 這一個檔案；沒有新文章就不會產生 commit。
+# 也可以手動執行：GitHub repo → Actions → 更新 sitemap → Run workflow
+name: 更新 sitemap
+
+on:
+  schedule:
+    - cron: "17 20 * * *"      # 每天 20:17 UTC（台灣時間凌晨 04:17）
+  workflow_dispatch:
+
+permissions:
+  contents: write              # 只用來把 sitemap.xml 推回 main
+
+concurrency:
+  group: sitemap
+  cancel-in-progress: false
+
+jobs:
+  sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 產生 sitemap.xml
+        run: node scripts/make-sitemap.mjs https://bojunlee.github.io/yuyublog/
+      - name: 有變動才 commit
+        run: |
+          if git diff --quiet -- sitemap.xml; then
+            echo "sitemap 沒有變動"
+            exit 0
+          fi
+          git config user.name "sitemap-bot"
+          git config user.email "sitemap-bot@users.noreply.github.com"
+          git add sitemap.xml
+          git commit -m "自動更新 sitemap"
+          git pull --rebase origin main
+          git push origin HEAD:main
