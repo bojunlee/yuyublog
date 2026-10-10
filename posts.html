@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>所有文章｜魚魚出去玩</title>
+<meta name="description" content="魚魚的旅遊、美食、度假與生活文章，可依分類瀏覽或搜尋地點與關鍵字。">
+<meta name="theme-color" content="#f6f1e8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="魚魚出去玩">
+<meta property="og:title" content="所有文章｜魚魚出去玩">
+<meta property="og:image" content="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=1200&h=630&q=70">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,600;1,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@900&text=%E9%AD%9A%E5%87%BA%E5%8E%BB%E7%8E%A9&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+<script type="module" src="assets/js/pages/posts.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要內容</a>
+<header id="site-header" class="site-header"></header>
+
+<main id="main">
+  <header class="page-head">
+    <div class="container">
+      <p class="page-head__kicker">All Stories</p>
+      <h1 id="list-title">所有文章</h1>
+      <p>旅行、美食、度假與生活。每一篇都是魚魚親自走過、吃過、住過的真實紀錄。</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="list-tools">
+      <div class="chips" id="cat-chips" role="group" aria-label="依分類篩選"></div>
+      <form class="search-field" id="search-form" role="search">
+        <label class="sr-only" for="search">搜尋文章</label>
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>
+        <input id="search" type="search" name="q" placeholder="搜尋地點、餐廳、關鍵字⋯" autocomplete="off" enterkeyhint="search" maxlength="40">
+        <button class="search-field__clear" type="button" id="search-clear" aria-label="清除搜尋" hidden>
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" style="position:static"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </form>
+    </div>
+
+    <div class="list-status" id="list-status" aria-live="polite"></div>
+    <h2 class="sr-only">文章列表</h2>
+    <div id="results" class="grid-cards"></div>
+    <div class="load-more" id="load-more"></div>
+  </div>
+  <div style="height:var(--section)"></div>
+</main>
+
+<footer id="site-footer" class="site-footer"></footer>
+</body>
+</html>

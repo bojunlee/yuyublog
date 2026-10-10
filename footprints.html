@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>旅行足跡｜魚魚出去玩</title>
+<meta name="description" content="魚魚去過的國家與城市，以及下一站想去的地方。點地圖上的國家就能看到相關文章。">
+<meta name="theme-color" content="#f6f1e8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="魚魚出去玩">
+<meta property="og:title" content="旅行足跡｜魚魚出去玩">
+<meta property="og:image" content="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1200&h=630&q=70">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,600;1,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@900&text=%E9%AD%9A%E5%87%BA%E5%8E%BB%E7%8E%A9&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+<script type="module" src="assets/js/pages/footprints.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要內容</a>
+<header id="site-header" class="site-header"></header>
+
+<main id="main">
+  <header class="page-head">
+    <div class="container">
+      <p class="page-head__kicker">Footprints</p>
+      <h1>旅行足跡</h1>
+      <p>藍色是魚魚去過的地方，橘色是下一站想去的地方，虛線是她走過的順序。點地圖上的圖釘，就能看到她在那裡留下的故事。</p>
+      <div class="fp-stats" id="fp-stats" aria-live="polite"></div>
+    </div>
+  </header>
+
+  <div class="container">
+    <section aria-labelledby="map-title">
+      <h2 class="sr-only" id="map-title">世界地圖</h2>
+      <div class="map-wrap" id="map-wrap">
+        <div class="map-fallback">地圖載入中⋯</div>
+      </div>
+      <div class="map-legend" aria-hidden="true">
+        <span><i></i>去過</span><span><i class="wish"></i>想去</span><span><i class="route"></i>旅行路線（依造訪順序）</span>
+        <span style="margin-left:auto;color:var(--muted)">地圖資料：Natural Earth（公有領域）</span>
+      </div>
+    </section>
+
+    <div class="fp-layout">
+      <section aria-labelledby="visited-title">
+        <div class="sec-head" style="margin-bottom:var(--s-5)"><div><span class="sec-head__kicker">Been There</span><h2 id="visited-title">去過的地方</h2></div></div>
+        <div id="countries" aria-live="polite"></div>
+      </section>
+      <section id="wishlist" aria-labelledby="wish-title">
+        <div class="sec-head" style="margin-bottom:var(--s-5)"><div><span class="sec-head__kicker">Wishlist</span><h2 id="wish-title">下一站想去</h2></div></div>
+        <ol class="wish-cards" id="wish-cards"></ol>
+      </section>
+    </div>
+  </div>
+  <div style="height:var(--section)"></div>
+</main>
+
+<footer id="site-footer" class="site-footer"></footer>
+</body>
+</html>

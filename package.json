@@ -1,0 +1,21 @@
+{
+  "name": "yuyublog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "魚魚出去玩：個人旅遊生活品牌網站（靜態網站 + Supabase）",
+  "type": "module",
+  "scripts": {
+    "dev": "python -m http.server 5500 --bind 127.0.0.1",
+    "db:start": "supabase start",
+    "db:stop": "supabase stop",
+    "db:reset": "supabase db reset",
+    "test": "playwright test",
+    "test:report": "playwright show-report tests/report"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.64.0",
+    "lighthouse": "^12.8.2",
+    "supabase": "^2.120.0"
+  }
+}

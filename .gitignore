@@ -1,0 +1,11 @@
+node_modules/
+supabase/.temp/
+supabase/.branches/
+tests/.local-test-env.json
+tests/report/
+tests/results/
+tests/screenshots/
+.env
+.env.*
+tests/audit/
+.claude/

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>關於魚魚｜魚魚出去玩</title>
+<meta name="description" content="我是魚魚（榆芳），一個愛吃、愛玩、愛拍照的女生，夢想是環遊世界。">
+<meta name="theme-color" content="#f6f1e8">
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="魚魚出去玩">
+<meta property="og:title" content="關於魚魚｜魚魚出去玩">
+<meta property="og:image" content="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=1200&h=630&q=70">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,600;1,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@900&text=%E9%AD%9A%E5%87%BA%E5%8E%BB%E7%8E%A9&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+<script type="module" src="assets/js/pages/about.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到主要內容</a>
+<header id="site-header" class="site-header"></header>
+
+<main id="main">
+  <div class="container">
+    <section class="about-hero" aria-labelledby="about-name">
+      <div class="about-hero__photo reveal" id="about-photo"><div class="skeleton" style="width:100%;height:100%"></div></div>
+      <div class="reveal" style="--i:1">
+        <p class="about-hero__script" aria-hidden="true">Hello, I'm Yuyu</p>
+        <h1 id="about-name">我是魚魚<small id="about-full">榆芳 · 夢想是環遊世界</small></h1>
+        <p class="about-hero__intro" id="about-intro"></p>
+        <div class="socials" id="about-socials"></div>
+      </div>
+    </section>
+  </div>
+
+  <section class="section section--sand" aria-labelledby="bio-title">
+    <div class="container">
+      <div class="about-bio">
+        <div class="sec-head reveal"><div><span class="sec-head__kicker">My Story</span><h2 id="bio-title">我的故事</h2></div></div>
+        <div class="prose reveal" id="about-bio"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="philosophy container" aria-labelledby="ph-title">
+    <span class="sec-head__kicker reveal">Travel Philosophy</span>
+    <h2 class="sr-only" id="ph-title">旅行理念</h2>
+    <q class="reveal" id="about-philosophy">旅行不是逃避生活，而是讓生活更完整。</q>
+    <ul class="favorites" id="about-favs" aria-label="喜歡的事物"></ul>
+  </section>
+
+  <section class="section voyage" aria-labelledby="about-voyage">
+    <div class="container voyage__grid">
+      <div class="reveal">
+        <span class="sec-head__kicker">So Far</span>
+        <h2 id="about-voyage" style="font-size:var(--t-3xl)">離環遊世界，還有一段路</h2>
+        <div class="stats" id="about-stats" style="margin-top:var(--s-6)"></div>
+      </div>
+      <div class="reveal" style="--i:1">
+        <p style="font-family:var(--f-hand);font-size:var(--t-xl);line-height:1.9">每一篇文章，都是寫給未來自己的明信片。<br>謝謝你願意陪我一起出去玩。</p>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--s-3);margin-top:var(--s-6)">
+          <a class="btn btn--accent" href="posts.html">讀魚魚的故事</a>
+          <a class="btn btn--light" href="footprints.html">看旅行足跡</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="site-footer" class="site-footer"></footer>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>魚魚出去玩｜吃美食、看風景，收集世界的溫柔</title>
+<meta name="description" content="魚魚（榆芳）的旅行生活筆記：國內外旅遊景點、美食餐廳、咖啡廳、度假住宿與日常生活。夢想是環遊世界。">
+<meta name="theme-color" content="#f6f1e8">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="魚魚出去玩">
+<meta property="og:title" content="魚魚出去玩｜吃美食、看風景，收集世界的溫柔">
+<meta property="og:description" content="魚魚的旅行生活筆記：旅遊、美食、度假與日常。">
+<meta property="og:image" content="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=1200&h=630&q=70">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,600;1,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@900&text=%E9%AD%9A%E5%87%BA%E5%8E%BB%E7%8E%A9&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/home.css">
+<script type="module" src="assets/js/pages/home.js"></script>
+</head>
+<body class="has-hero">
+<a class="skip-link" href="#main">跳到主要內容</a>
+<header id="site-header" class="site-header"></header>
+
+<main id="main">
+  <!-- 主視覺 -->
+  <section class="hero" id="hero" aria-labelledby="hero-title">
+    <div class="hero__media" id="hero-media"><img src="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&amp;fit=crop&amp;q=70&amp;w=2000" srcset="https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&amp;fit=crop&amp;q=70&amp;w=800 800w, https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&amp;fit=crop&amp;q=70&amp;w=1200 1200w, https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&amp;fit=crop&amp;q=70&amp;w=2000 2000w" sizes="100vw" width="2000" height="1333" alt="希臘・聖托里尼的黃昏" fetchpriority="high" decoding="async"></div>
+    <div class="container hero__inner">
+      <div>
+        <p class="hero__kicker hero-line" style="--i:0">Travel · Food · Holiday · My Life</p>
+        <h1 class="hero__title hero-line" id="hero-title" style="--i:1">魚魚出去玩<span class="script" aria-hidden="true">Yuyu goes out</span></h1>
+        <p class="hero__tagline hero-line" id="hero-tagline" style="--i:2">吃美食、看風景，收集世界的溫柔。</p>
+        <div class="hero__actions hero-line" style="--i:3">
+          <a class="btn btn--accent" href="#latest">開始閱讀 <svg class="ic ic--arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a>
+          <a class="btn btn--light" href="footprints.html">旅行足跡</a>
+        </div>
+      </div>
+      <p class="hero__note hero-line" id="hero-note" style="--i:4">下一站，會是更遠的地方。</p>
+      <div class="hero__strip hero-line" id="hero-strip" style="--i:5" aria-label="旅行紀錄">
+        <span><b data-stat="countries">—</b>個國家</span>
+        <span><b data-stat="cities">—</b>座城市</span>
+        <span><b data-stat="posts">—</b>篇故事</span>
+        <a class="scroll-cue" href="#categories" style="margin-left:auto">SCROLL</a>
+      </div>
+    </div>
+    <p class="hero__credit" id="hero-credit">Photo · Unsplash</p>
+  </section>
+
+  <!-- 分類：奶油底 -->
+  <section class="section" id="categories" aria-labelledby="cat-title">
+    <div class="container">
+      <div class="sec-head reveal">
+        <div><span class="sec-head__kicker">Categories</span><h2 id="cat-title">想看哪一種故事？</h2></div>
+        <p class="sec-head__aside">世界那麼大，我想一個地方一個地方去看看。</p>
+      </div>
+      <div class="cats m-rail" id="cats" aria-label="文章分類"></div>
+      <div class="rail-progress" id="cats-progress" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 封面故事：淺海藍底 -->
+  <section class="section cover-sec" id="feature-sec" aria-labelledby="feature-title" hidden>
+    <span class="cover-sec__mark" aria-hidden="true">No.01</span>
+    <div class="container">
+      <div class="sec-head reveal"><div><span class="sec-head__kicker">Cover Story</span><h2 id="feature-title">本期精選</h2></div></div>
+      <div id="feature"></div>
+    </div>
+  </section>
+
+  <!-- 最新文章：奶油底 -->
+  <section class="section" id="latest" aria-labelledby="latest-title">
+    <div class="container">
+      <div class="sec-head reveal">
+        <div><span class="sec-head__kicker">Latest Stories</span><h2 id="latest-title">最新文章</h2></div>
+        <a class="text-link sec-head__link" href="posts.html">看全部 <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a>
+      </div>
+      <div id="latest-list" aria-live="polite"></div>
+      <div class="rail-progress" id="latest-progress" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 照片日記：夜色底 -->
+  <section class="section diary" id="diary" aria-labelledby="diary-title" hidden>
+    <div class="container">
+      <div class="sec-head reveal">
+        <div><span class="sec-head__kicker">Photo Diary</span><h2 id="diary-title">照片日記</h2><p>旅途中按下快門的那一刻，點照片就能讀那一篇。</p></div>
+        <a class="text-link sec-head__link" href="posts.html">更多故事 <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a>
+      </div>
+      <div class="diary-grid m-rail" id="diary-grid"></div>
+      <div class="rail-progress" id="diary-progress" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 關於魚魚：沙色底 -->
+  <section class="section section--sand" id="about" aria-labelledby="about-title">
+    <div class="container about-band">
+      <div class="collage reveal" id="about-collage" aria-hidden="true"></div>
+      <div class="reveal" style="--i:1">
+        <p class="about-band__script" aria-hidden="true">Hello, I'm Yuyu</p>
+        <h2 id="about-title">關於魚魚</h2>
+        <p class="about-band__intro" id="about-intro"></p>
+        <dl class="facts" id="about-facts"></dl>
+        <p class="about-band__quote" id="about-quote"></p>
+        <div class="about-band__actions" id="about-actions">
+          <a class="btn btn--ghost" href="about.html">更多關於我 <svg class="ic ic--arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 足跡與願望：深海底 -->
+  <section class="section voyage" id="voyage" aria-labelledby="voyage-title">
+    <div class="container">
+      <div class="voyage__grid">
+        <div class="reveal">
+          <div class="sec-head" style="margin-bottom:var(--s-6)"><div><span class="sec-head__kicker">Footprints</span><h2 id="voyage-title">走過的路，與想去的地方</h2>
+            <p>每一個去過的國家都是一枚印章。離環遊世界還很遠，但每一步都算數。</p></div></div>
+          <div class="stats" id="voyage-stats"></div>
+          <div class="globe-progress" id="globe-progress"></div>
+        </div>
+        <div class="reveal" style="--i:1">
+          <a class="mini-map" href="footprints.html">
+            <div id="mini-map"><div class="mini-map__ph">地圖載入中⋯</div></div>
+            <span class="mini-map__cta">打開旅行地圖 <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></span>
+          </a>
+          <div class="mini-map__legend" aria-hidden="true"><span><i></i>去過</span><span><i class="wish"></i>想去</span></div>
+        </div>
+      </div>
+      <div class="stamps-head reveal"><h3>下一站想去</h3><span class="eyebrow">Next Destinations</span></div>
+      <ol class="stamps m-rail" id="wish-list" tabindex="0" aria-label="下一站想去的地方"></ol>
+      <div class="rail-progress" id="wish-progress" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- 結尾 -->
+  <section class="closing" aria-label="魚魚的旅行信念">
+    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=65" alt="" loading="lazy" decoding="async">
+    <div class="container closing__inner reveal">
+      <q id="closing-quote">旅行不是逃避生活，而是讓生活更完整。</q>
+      <span class="sig" aria-hidden="true">Yuyu</span>
+      <a class="btn btn--light" href="posts.html">開始我的下一趟旅程</a>
+    </div>
+  </section>
+</main>
+
+<footer id="site-footer" class="site-footer"></footer>
+</body>
+</html>

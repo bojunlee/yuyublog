@@ -1,0 +1,242 @@
+/* ==========================================================================
+   首頁專用樣式（沿用 site.css 的 tokens）
+   區塊節奏：主視覺（深）→ 分類（奶油）→ 封面故事（淺海藍）→ 最新文章（奶油）
+            → 照片日記（夜色）→ 關於魚魚（沙色）→ 足跡（深海）→ 結尾（照片）
+   ========================================================================== */
+
+.sec-head__aside { font-family: var(--f-hand); font-size: var(--t-lg); line-height: 1.7; color: var(--ink-2); max-width: 20em; text-align: right; }
+.sec-head__aside .ic { display: inline-block; width: 18px; height: 18px; vertical-align: -3px; color: var(--sunset); }
+
+/* ── 分類：錯落的四張直式照片 ─────────────────────────── */
+.cats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--s-4); align-items: start; }
+.cats > :nth-child(even) { margin-top: var(--s-8); }
+.cat-tile { position: relative; display: block; overflow: hidden; border-radius: var(--r-md); aspect-ratio: 3 / 4; color: var(--on-dark); background: var(--ocean-deep); isolation: isolate; }
+.cat-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transition: transform var(--d-slow) var(--ease); }
+.cat-tile::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(14, 24, 34, .74), rgba(14, 24, 34, 0) 58%), linear-gradient(180deg, rgba(14, 24, 34, .28), transparent 30%); }
+.cat-tile__no { position: absolute; top: var(--s-4); left: var(--s-5); font-family: var(--f-latin); font-style: italic; font-size: 1.15rem; opacity: .9; }
+.cat-tile__body { position: absolute; left: 0; right: 0; bottom: 0; padding: var(--s-5); display: grid; gap: 2px; }
+.cat-tile .ic--cat { width: 28px; height: 28px; margin-bottom: var(--s-2); }
+.cat-tile__en { font-family: var(--f-latin); font-style: italic; font-size: var(--t-xl); opacity: .9; }
+.cat-tile__zh { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; font-family: var(--f-serif); font-size: var(--t-2xl); font-weight: 700; letter-spacing: .2em; }
+.cat-tile__zh small { font-family: var(--f-sans); font-size: var(--t-xs); font-weight: 500; letter-spacing: .1em; opacity: .85; white-space: nowrap; }
+.cat-tile__go { display: inline-flex; align-items: center; gap: 6px; margin-top: var(--s-2); font-size: var(--t-xs); letter-spacing: .16em; opacity: 0; transform: translateX(-8px); transition: opacity var(--d-base) var(--ease), transform var(--d-base) var(--ease); }
+.cat-tile__go .ic { width: 16px; height: 16px; }
+.cat-tile:hover img, .cat-tile:focus-visible img { transform: scale(1.06); }
+.cat-tile:hover .cat-tile__go, .cat-tile:focus-visible .cat-tile__go { opacity: 1; transform: none; }
+
+/* ── 封面故事：淺海藍底、圖文交疊 ─────────────────────── */
+.cover-sec { position: relative; background: var(--sky); overflow: hidden; }
+.cover-sec__mark {
+  position: absolute; right: -0.04em; top: -0.18em; font-family: var(--f-latin); font-style: italic; font-weight: 500;
+  font-size: clamp(8rem, 18vw, 17rem); line-height: 1; color: var(--sky-deep); pointer-events: none; user-select: none;
+}
+.cover-sec .container { position: relative; }
+.feature { position: relative; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: center; }
+.feature__media { grid-column: 1 / 9; grid-row: 1; position: relative; overflow: hidden; border-radius: var(--r-md); aspect-ratio: 4 / 3; background: var(--sky-deep); }
+.feature__media img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--d-slow) var(--ease); }
+.feature:hover .feature__media img { transform: scale(1.035); }
+.feature__body {
+  grid-column: 8 / 13; grid-row: 1; position: relative; z-index: 1; display: grid; gap: var(--s-4);
+  padding: clamp(28px, 3.4vw, 48px); background: var(--surface); border-radius: var(--r-md); box-shadow: var(--shadow-2);
+}
+.feature__no { font-family: var(--f-latin); font-style: italic; font-size: 1.1rem; color: var(--sunset); letter-spacing: .08em; }
+.feature__title { font-size: var(--t-2xl); line-height: 1.45; }
+.feature__title a::after { content: ""; position: absolute; inset: 0; }
+.feature__excerpt { color: var(--ink-2); line-height: 1.9; }
+.feature .card__meta { font-size: var(--t-sm); }
+.feature .text-link { justify-self: start; }
+
+/* ── 最新文章：一大、三小、三欄 ───────────────────────── */
+.latest-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--s-7) var(--s-6); }
+.latest-grid > :nth-child(1) { grid-column: 1 / 5; grid-row: 1 / span 3; }
+.latest-grid > :nth-child(1) .card__media { aspect-ratio: 16 / 11; }
+.latest-grid > :nth-child(1) .card__title { font-size: var(--t-2xl); line-height: 1.4; }
+.latest-grid > :nth-child(1) .card__excerpt { font-size: var(--t-md); -webkit-line-clamp: 3; }
+.latest-grid > :nth-child(n+2):nth-child(-n+4) {
+  grid-column: 5 / 7; display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: var(--s-4); align-items: center;
+  padding-bottom: var(--s-5); border-bottom: 1px solid var(--line);
+}
+.latest-grid > :nth-child(n+2):nth-child(-n+4) .card__media { aspect-ratio: 1; border-radius: var(--r-sm); }
+.latest-grid > :nth-child(n+2):nth-child(-n+4) .card__media .cat-tag,
+.latest-grid > :nth-child(n+2):nth-child(-n+4) .card__excerpt { display: none; }
+.latest-grid > :nth-child(n+2):nth-child(-n+4) .card__title { font-size: var(--t-md); }
+.latest-grid > :nth-child(n+5) { grid-column: span 2; }
+
+/* ── 照片日記：夜色底的攝影拼貼 ───────────────────────── */
+.diary { background: var(--night); color: var(--on-dark); }
+.diary .sec-head__kicker { color: var(--sunset-light); }
+.diary .sec-head p { color: color-mix(in srgb, var(--on-dark) 68%, transparent); }
+.diary .text-link { color: var(--on-dark); }
+.diary-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: clamp(150px, 16vw, 230px); gap: var(--s-3); }
+.diary-grid > :first-child { grid-column: span 2; grid-row: span 2; }
+.diary-item[hidden] { display: none; }
+.diary-item { position: relative; display: block; overflow: hidden; border-radius: var(--r-sm); background: #1f2a35; margin: 0; }
+.diary-item img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.9) brightness(.94); transition: transform var(--d-slow) var(--ease), filter var(--d-slow) var(--ease); }
+.diary-item__cap {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: var(--s-6) var(--s-4) var(--s-3);
+  background: linear-gradient(0deg, rgba(10, 15, 20, .78), transparent); font-size: var(--t-xs); letter-spacing: .08em; line-height: 1.6;
+  opacity: 0; transform: translateY(6px); transition: opacity var(--d-base) var(--ease), transform var(--d-base) var(--ease);
+}
+.diary-item__cap b { display: block; font-family: var(--f-serif); font-size: var(--t-sm); letter-spacing: .1em; }
+.diary-item:hover img, .diary-item:focus-visible img { transform: scale(1.06); filter: none; }
+.diary-item:hover .diary-item__cap, .diary-item:focus-visible .diary-item__cap { opacity: 1; transform: none; }
+@media (hover: none) { .diary-item__cap { opacity: 1; transform: none; } }
+
+/* ── 關於魚魚：拍立得拼貼 ─────────────────────────────── */
+.about-band { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: var(--s-9); align-items: center; }
+.collage { position: relative; width: 100%; max-width: 540px; aspect-ratio: 1 / 1.02; margin-inline: auto; }
+.polaroid {
+  position: absolute; margin: 0; padding: 10px 10px 42px; background: #fffdf8; border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(60, 42, 20, .08), 0 16px 36px rgba(60, 42, 20, .16);
+  transition: transform var(--d-slow) var(--ease);
+}
+.polaroid img, .polaroid .monogram { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+.polaroid figcaption { position: absolute; left: 0; right: 0; bottom: 9px; text-align: center; font-family: var(--f-hand); font-size: 1rem; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-inline: 8px; }
+.polaroid--main { width: 58%; left: 12%; top: 10%; z-index: 2; transform: rotate(-3deg); }
+.polaroid--main img, .polaroid--main .monogram { aspect-ratio: 4 / 5; }
+.polaroid--main::before {
+  content: ""; position: absolute; top: -13px; left: 50%; width: 92px; height: 26px; transform: translateX(-50%) rotate(-4deg);
+  background: rgba(240, 180, 143, .62); box-shadow: 0 1px 2px rgba(0, 0, 0, .06);
+}
+.polaroid--a { width: 38%; right: 0; top: 0; z-index: 1; transform: rotate(7deg); }
+.polaroid--b { width: 34%; left: -2%; bottom: 0; z-index: 3; transform: rotate(-8deg); }
+.collage:hover .polaroid--main { transform: rotate(-1.5deg) translateY(-4px); }
+.collage:hover .polaroid--a { transform: rotate(9deg) translate(4px, -2px); }
+.collage:hover .polaroid--b { transform: rotate(-10deg) translate(-4px, 2px); }
+.collage__note {
+  position: absolute; right: 0; bottom: 8%; z-index: 4; display: flex; align-items: flex-end; gap: 4px;
+  font-family: var(--f-hand); font-size: var(--t-lg); color: var(--sunset-deep); transform: rotate(-6deg);
+}
+.collage__note svg { width: 44px; height: 36px; flex: none; }
+
+.about-band__script { font-family: var(--f-script); font-size: 2.6rem; color: var(--sunset); line-height: 1; }
+.about-band h2 { font-size: var(--t-3xl); margin-top: var(--s-2); }
+.about-band__intro { margin-top: var(--s-5); font-size: var(--t-lg); line-height: 2; color: var(--ink-2); }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s-4); margin: var(--s-6) 0 0; padding-top: var(--s-5); border-top: 1px solid var(--line-strong); }
+.facts dt { font-size: var(--t-xs); letter-spacing: .2em; color: var(--muted); }
+.facts dd { margin: 4px 0 0; font-family: var(--f-serif); font-size: var(--t-lg); font-weight: 700; letter-spacing: .06em; }
+.about-band__quote { margin-top: var(--s-6); padding-left: var(--s-5); border-left: 2px solid var(--sunset); font-family: var(--f-hand); font-size: var(--t-xl); line-height: 1.7; color: var(--ink); }
+.about-band__actions { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-6); }
+
+/* ── 足跡：小地圖、環遊世界進度、願望郵票 ───────────────── */
+.voyage__grid { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
+.globe-progress { margin-top: var(--s-6); }
+.globe-progress__bar { position: relative; height: 4px; border-radius: 2px; background: rgba(251, 246, 238, .14); overflow: hidden; }
+.globe-progress__bar i { position: absolute; inset: 0 auto 0 0; width: var(--p, 0%); background: var(--sunset-light); border-radius: 2px; transition: width 1.2s var(--ease); }
+.globe-progress__label { display: flex; justify-content: space-between; margin-top: var(--s-2); font-size: var(--t-xs); letter-spacing: .14em; color: color-mix(in srgb, var(--on-dark) 70%, transparent); }
+.mini-map { position: relative; display: block; border-radius: var(--r-md); padding: var(--s-4); background: rgba(251, 246, 238, .04); border: 1px solid rgba(251, 246, 238, .1); transition: border-color var(--d-base) var(--ease), background var(--d-base) var(--ease); }
+.mini-map:hover { border-color: rgba(251, 246, 238, .3); background: rgba(251, 246, 238, .06); }
+.mini-map__ph { aspect-ratio: 960 / 500; display: grid; place-items: center; font-size: var(--t-xs); letter-spacing: .14em; color: color-mix(in srgb, var(--on-dark) 80%, transparent); }
+.mini-map svg { width: 100%; height: auto; }
+.mini-map .sphere { stroke: rgba(251, 246, 238, .12); }
+.mini-map .country { fill: rgba(251, 246, 238, .12); stroke: var(--ocean-deep); stroke-width: .4; }
+.mini-map .country.is-visited { fill: var(--sunset-light); }
+.mini-map .country.is-wish { fill: rgba(240, 180, 143, .32); }
+.mini-map__legend { display: flex; flex-wrap: wrap; gap: var(--s-4); margin-top: var(--s-3); font-size: var(--t-xs); letter-spacing: .1em; color: color-mix(in srgb, var(--on-dark) 70%, transparent); }
+.mini-map__legend span { display: inline-flex; align-items: center; gap: 6px; }
+.mini-map__legend i { width: 10px; height: 10px; border-radius: 2px; background: var(--sunset-light); }
+.mini-map__legend i.wish { background: rgba(240, 180, 143, .32); }
+.mini-map__cta { position: absolute; right: var(--s-4); bottom: var(--s-4); display: inline-flex; align-items: center; gap: 6px; font-size: var(--t-xs); letter-spacing: .14em; }
+.mini-map__cta .ic { width: 16px; height: 16px; transition: transform var(--d-base) var(--ease); }
+.mini-map:hover .mini-map__cta .ic { transform: translateX(4px); }
+
+.stamps-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--s-4); margin-top: var(--s-9); margin-bottom: var(--s-5); }
+.stamps-head h3 { font-size: var(--t-xl); letter-spacing: .12em; }
+.stamps-head .eyebrow { color: var(--sunset-light); }
+.stamps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--s-4); }
+.stamp-card {
+  position: relative; display: flex; flex-direction: column; gap: 4px; min-height: 176px; padding: var(--s-5);
+  border: 1px dashed rgba(251, 246, 238, .32); border-radius: var(--r-sm); background: rgba(251, 246, 238, .03);
+  transition: background var(--d-base) var(--ease), transform var(--d-base) var(--ease), border-color var(--d-base) var(--ease);
+}
+.stamp-card:hover { background: rgba(251, 246, 238, .07); border-color: rgba(240, 180, 143, .6); transform: translateY(-3px); }
+.stamp-card .n { font-family: var(--f-latin); font-style: italic; font-size: 1.4rem; color: var(--sunset-light); line-height: 1; }
+.stamp-card b { margin-top: auto; font-family: var(--f-serif); font-size: var(--t-xl); letter-spacing: .12em; }
+.stamp-card span { font-size: var(--t-xs); letter-spacing: .12em; color: color-mix(in srgb, var(--on-dark) 70%, transparent); }
+.stamp-card p { font-size: var(--t-sm); line-height: 1.6; color: color-mix(in srgb, var(--on-dark) 82%, transparent); }
+.stamp-card__seal {
+  position: absolute; right: 12px; top: 12px; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; text-align: center;
+  border: 1px solid rgba(240, 180, 143, .55); color: var(--sunset-light); font: 600 8px/1.15 var(--f-sans); letter-spacing: .12em; transform: rotate(14deg);
+}
+.voyage { --rail-track: rgba(251, 246, 238, .15); --rail-thumb: var(--sunset-light); }
+.diary { --rail-track: rgba(251, 246, 238, .15); --rail-thumb: var(--sunset-light); }
+
+/* ── 結尾引言 ─────────────────────────────────────────── */
+.closing { position: relative; color: var(--on-dark); text-align: center; isolation: isolate; overflow: hidden; }
+.closing img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+.closing::before { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(14, 24, 34, .5); }
+.closing__inner { padding-block: clamp(80px, 12vw, 160px); display: grid; justify-items: center; gap: var(--s-5); }
+.closing q { font-family: var(--f-serif); font-size: var(--t-3xl); font-weight: 700; letter-spacing: .12em; quotes: none; max-width: 22ch; line-height: 1.5; }
+.closing .sig { font-family: var(--f-script); font-size: 2rem; color: #f6c7a8; }
+
+/* ── 平板 ─────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .cats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cats > :nth-child(even) { margin-top: 0; }
+  .feature__media { grid-column: 1 / -1; }
+  .feature__body { grid-column: 2 / -2; grid-row: 2; margin-top: calc(-1 * var(--s-9)); }
+  .latest-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .latest-grid > :nth-child(n) { grid-column: auto; grid-row: auto; }
+  .latest-grid > :nth-child(1) { grid-column: 1 / -1; }
+  .latest-grid > :nth-child(n+2):nth-child(-n+4) { display: flex; flex-direction: column; align-items: stretch; padding-bottom: 0; border-bottom: 0; gap: var(--s-4); }
+  .latest-grid > :nth-child(n+2):nth-child(-n+4) .card__media { aspect-ratio: 4 / 3; border-radius: var(--r-md); }
+  .latest-grid > :nth-child(n+2):nth-child(-n+4) .card__media .cat-tag { display: inline-flex; }
+  .diary-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 180px; }
+  .about-band, .voyage__grid { grid-template-columns: minmax(0, 1fr); gap: var(--s-7); }
+  .collage { max-width: 460px; }
+  .stamps { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .sec-head__aside { text-align: left; }
+}
+
+/* ── 手機：重新安排，不是縮小版 ─────────────────────────
+   分類、最新文章、照片日記、願望清單改成可左右滑的一排（iPhone SE 實測頁面從約 8,060px 縮到 6,486px）*/
+@media (max-width: 640px) {
+  /* home.css 比 site.css 晚載入，要再宣告一次 flex，滑動列才會生效 */
+  .cats.m-rail, .latest-grid.m-rail, .diary-grid.m-rail, .stamps.m-rail { display: flex; }
+  .cats { --rail-w: 44%; gap: var(--s-3); }
+  .cat-tile { aspect-ratio: 3 / 4.2; }
+  .cat-tile__no { top: var(--s-3); left: var(--s-4); font-size: 1rem; }
+  .cat-tile__body { padding: var(--s-4); }
+  .cat-tile .ic--cat { width: 22px; height: 22px; margin-bottom: 4px; }
+  .cat-tile__en { font-size: var(--t-md); }
+  .cat-tile__zh { font-size: var(--t-xl); flex-direction: column; align-items: start; gap: 0; letter-spacing: .14em; }
+  .cat-tile__go { display: none; }
+
+  .cover-sec__mark { font-size: 7.5rem; top: -.1em; }
+  .feature { display: block; }
+  .feature__media { margin-inline: calc(-1 * var(--gutter)); border-radius: 0; aspect-ratio: 4 / 3.4; }
+  .feature__body { margin: -64px var(--s-3) 0; padding: var(--s-6) var(--s-5); gap: var(--s-3); }
+  .feature__title { font-size: var(--t-xl); }
+  .feature__excerpt { font-size: var(--t-sm); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+
+  .latest-grid { --rail-w: 80%; gap: var(--s-4); }
+  .latest-grid > :nth-child(n) { display: flex; flex-direction: column; gap: var(--s-3); padding: 0; border: 0; }
+  .latest-grid > :nth-child(n) .card__media { aspect-ratio: 4 / 3.2; border-radius: var(--r-md); }
+  .latest-grid > :nth-child(n) .card__media .cat-tag { display: inline-flex; }
+  .latest-grid > :nth-child(n) .card__title { font-size: var(--t-md); }
+  .latest-grid > :nth-child(n) .card__excerpt { display: -webkit-box; font-size: var(--t-sm); -webkit-line-clamp: 2; }
+
+  .diary-grid { --rail-w: 64%; }
+  .diary-grid > * { aspect-ratio: 3 / 4; height: auto; }
+  .diary-grid > :first-child { --rail-w: 80%; aspect-ratio: 4 / 4.2; flex-basis: 80%; }
+
+  .about-band { gap: var(--s-6); }
+  .collage { max-width: 340px; }
+  .polaroid { padding: 7px 7px 30px; }
+  .polaroid figcaption { font-size: .85rem; bottom: 6px; }
+  .collage__note { font-size: var(--t-md); right: -4px; }
+  .about-band__script { font-size: 2.1rem; }
+  .about-band__intro { font-size: var(--t-md); line-height: 1.95; }
+  .facts { gap: var(--s-3); }
+  .facts dd { font-size: var(--t-md); }
+  .about-band__actions .btn { flex: 1 1 auto; }
+
+  .voyage .stats { gap: var(--s-3); }
+  .mini-map { padding: var(--s-2); }
+  .mini-map__cta { position: static; margin-top: var(--s-3); }
+  .stamps-head { margin-top: var(--s-7); }
+  .stamps { --rail-w: 64%; }
+  .stamp-card { min-height: 160px; }
+
+  .closing q { font-size: var(--t-2xl); }
+}

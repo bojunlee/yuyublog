@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>迷路了｜魚魚出去玩</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f6f1e8">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=Noto+Serif+TC:wght@700&text=404%E9%80%99%E6%A2%9D%E8%B7%AF%E5%A5%BD%E5%83%8F%E8%B5%B0%E9%8C%AF%E4%BA%86&display=swap">
+<style>
+  /* 404 可能出現在任何路徑下，所以不依賴相對路徑的樣式表 */
+  body { margin: 0; min-height: 100svh; display: grid; place-items: center; background: #f6f1e8; color: #1b2630; font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif; text-align: center; padding: 24px; }
+  b { display: block; font-family: "Cormorant Garamond", serif; font-style: italic; font-weight: 500; font-size: 6rem; color: #a54e2c; line-height: 1; }
+  h1 { font-family: "Noto Serif TC", serif; font-size: clamp(1.6rem, 4vw, 2.4rem); margin: 16px 0 8px; letter-spacing: .08em; }
+  p { color: #5d646b; margin: 0 0 28px; line-height: 1.8; }
+  a { display: inline-flex; min-height: 48px; align-items: center; padding: 0 26px; border-radius: 999px; background: #1b2630; color: #fbf6ee; text-decoration: none; font-weight: 700; letter-spacing: .14em; font-size: .875rem; }
+  a:hover { background: #133a50; }
+  a:focus-visible { outline: 2px solid #a54e2c; outline-offset: 3px; }
+</style>
+</head>
+<body>
+<main>
+  <b>404</b>
+  <h1>這條路好像走錯了</h1>
+  <p>你要找的頁面不存在，可能是網址打錯，或文章已經移除。</p>
+  <a href="./" id="home">回到魚魚出去玩</a>
+</main>
+<script>
+  // GitHub Pages 的專案網址是 /repo名稱/，回首頁要回到第一層
+  (function () {
+    var seg = location.pathname.split("/").filter(Boolean);
+    var base = location.hostname.endsWith("github.io") && seg.length ? "/" + seg[0] + "/" : "/";
+    document.getElementById("home").href = base;
+  })();
+</script>
+</body>
+</html>
