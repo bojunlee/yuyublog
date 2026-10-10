@@ -436,11 +436,14 @@ body.nav-open { overflow: hidden; }
 .hero__media img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
 .hero::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
+  /* 暗色只集中在文字後面（左下方），右上方的聖托里尼風景保持明亮 */
   background:
     linear-gradient(180deg, rgba(14, 24, 34, .55) 0%, rgba(14, 24, 34, 0) 22%),
-    linear-gradient(0deg, rgba(14, 24, 34, .78) 0%, rgba(14, 24, 34, .25) 45%, rgba(14, 24, 34, 0) 70%),
-    linear-gradient(90deg, rgba(14, 24, 34, .45) 0%, rgba(14, 24, 34, 0) 55%);
+    radial-gradient(ellipse 85% 75% at 12% 62%, rgba(14, 24, 34, .66) 0%, rgba(14, 24, 34, .46) 45%, rgba(14, 24, 34, 0) 100%),
+    linear-gradient(0deg, rgba(14, 24, 34, .82) 0%, rgba(14, 24, 34, .38) 42%, rgba(14, 24, 34, 0) 72%),
+    linear-gradient(90deg, rgba(14, 24, 34, .5) 0%, rgba(14, 24, 34, 0) 58%);
 }
+.hero__kicker, .hero__tagline { text-shadow: 0 1px 3px rgba(8, 14, 20, .5), 0 1px 16px rgba(8, 14, 20, .6); }
 .hero__inner { padding-block: calc(var(--header-h) + var(--s-8)) var(--s-8); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s-6); align-items: end; }
 .hero__kicker { font-family: var(--f-latin); font-style: italic; font-size: var(--t-xl); letter-spacing: .06em; opacity: .9; }
 .hero__title { position: relative; margin-top: var(--s-3); font-family: var(--f-brand); font-size: var(--t-hero); font-weight: 900; letter-spacing: .12em; line-height: 1.05; text-shadow: 0 2px 30px rgba(0, 0, 0, .25); }
@@ -743,6 +746,11 @@ body.nav-open { overflow: hidden; }
   .sec-head { margin-bottom: var(--s-6); }
 }
 @media (max-width: 600px) {
+  .hero::before {
+    background:
+      linear-gradient(180deg, rgba(14, 24, 34, .5) 0%, rgba(14, 24, 34, 0) 18%),
+      linear-gradient(0deg, rgba(14, 24, 34, .9) 0%, rgba(14, 24, 34, .8) 44%, rgba(14, 24, 34, .58) 66%, rgba(14, 24, 34, 0) 92%);
+  }
   .grid-cards { grid-template-columns: minmax(0, 1fr); gap: var(--s-6); }
   :root { --section: 56px; }
   .sec-head { flex-wrap: wrap; align-items: end; gap: var(--s-3) var(--s-4); }

@@ -16,6 +16,7 @@
     "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.64.0",
     "lighthouse": "^12.8.2",
+    "pngjs": "^7.0.0",
     "supabase": "^2.120.0"
   }
 }
