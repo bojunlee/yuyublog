@@ -1,0 +1,38 @@
+# 把已發布的文章預先產生成完整的靜態頁，並更新 sitemap.xml、llms.txt（讀取公開網站上「已發布」的文章，不會碰草稿）
+# 沒有變動就不會產生 commit。也可以手動執行：GitHub repo → Actions → 更新網站 SEO 檔案 → Run workflow
+name: 更新網站 SEO 檔案
+
+on:
+  schedule:
+    - cron: "17 */6 * * *"      # 每 6 小時一次
+  workflow_dispatch:
+
+permissions:
+  contents: write              # 只用來把產生的檔案推回 main
+
+concurrency:
+  group: build-site
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 產生靜態文章頁、sitemap、llms.txt
+        run: node scripts/build-site.mjs https://bojunlee.github.io/yuyublog/
+      - name: 有變動才 commit
+        run: |
+          git add -A -- p sitemap.xml llms.txt robots.txt index.html about.html posts.html footprints.html
+          if git diff --cached --quiet; then
+            echo "沒有變動"
+            exit 0
+          fi
+          git config user.name "site-bot"
+          git config user.email "site-bot@users.noreply.github.com"
+          git commit -m "自動更新文章靜態頁與 SEO 檔案"
+          git pull --rebase origin main
+          git push origin HEAD:main

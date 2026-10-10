@@ -1,6 +1,9 @@
 // 公開網站：連上本機資料庫後的實際行為（載入、分頁、篩選、搜尋、空狀態、錯誤狀態）
 import { test, expect } from "@playwright/test";
 import { useLocalConfig, rest, testEnv } from "./helpers.js";
+import { execFileSync } from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
 
 test.describe.configure({ mode: "serial" });
 
@@ -121,6 +124,69 @@ test("閱讀人數：顯示在文章頁，同一瀏覽器重複打開不重複�
   await expect(page.locator("#view-n")).toHaveText("2");                                      // 重新整理不再 +1
   await expect.poll(async () => (await rest(`/rest/v1/posts?id=eq.${ids[1]}&select=views`)).json[0].views).toBe(2);
 });
+
+// 靜態文章頁：產生 → 原始 HTML 就有完整內容 → 瀏覽器接手後互動正常 → 取消發布後被移除
+test("SEO：預先產生的文章靜態頁，內容完整且能正常互動", async ({ page }) => {
+  const env = testEnv();
+  const out = path.resolve("tests/results/site-build");
+  fs.rmSync(out, { recursive: true, force: true });
+  const run = () => execFileSync("node", ["scripts/build-site.mjs", "https://example.test/blog/", `--out=${out}`],
+    { env: { ...process.env, SUPABASE_URL: env.url, SUPABASE_ANON_KEY: env.anon }, encoding: "utf8" });
+  run();
+
+  const file = path.join(out, "p", `${ids[0]}.html`);
+  const html = fs.readFileSync(file, "utf8");
+  const text = html.replace(/<(script|style)[\s\S]*?<\/>/g, "").replace(/<[^>]+>/g, "").replace(/\s+/g, "");
+  expect(html).toContain("<title>seed 文章 01｜魚魚出去玩</title>");
+  expect(html).toContain(`<link rel="canonical" href="https://example.test/blog/p/${ids[0]}.html">`);
+  expect(html).toContain('<meta property="og:title" content="seed 文章 01">');
+  expect(html).toContain(`og:image" content="${env.url}/storage/v1/object/public/photos/test/cover.png"`);
+  expect(html).toMatch(/<h1 id="article-title">seed 文章 01<\/h1>/);
+  expect(html).toContain('"@type":"BlogPosting"');
+  expect(html).toContain("<base href=\"../\">");
+  expect(text).toContain("第一段");                 // 內文在原始 HTML 裡，不需要 JavaScript
+
+  // 其他輸出
+  expect(fs.readFileSync(path.join(out, "sitemap.xml"), "utf8")).toContain(`https://example.test/blog/p/${ids[0]}.html`);
+  expect(fs.readFileSync(path.join(out, "llms.txt"), "utf8")).toContain("seed 文章 01");
+  expect(fs.readFileSync(path.join(out, "index.html"), "utf8")).toContain('"@type":"WebSite"');
+  const before = fs.readFileSync(path.join(out, "sitemap.xml"), "utf8");
+  expect(run()).toContain("沒有任何變動");          // 沒有新文章 → 不產生變動（不會有多餘的 commit）
+  expect(fs.readFileSync(path.join(out, "sitemap.xml"), "utf8")).toBe(before);
+
+  // 瀏覽器載入這個靜態頁：沿用預先產生的內容、互動功能仍然運作
+  // 不用 page.route 攔截：Chromium 會把「攔截產生的頁面」當成來源不明而擋掉對本機資料庫的請求，所以真的把檔案放進伺服器目錄
+  const served = path.resolve("p", `${ids[0]}.html`);
+  fs.mkdirSync(path.dirname(served), { recursive: true });
+  fs.writeFileSync(served, html);
+  try {
+    await checkStaticPage(page);
+  } finally {
+    fs.rmSync(served, { force: true });
+    try { fs.rmdirSync(path.dirname(served)); } catch { /* 資料夾裡還有別的檔案就保留 */ }
+  }
+
+  // 取消發布後重新產生：靜態頁、sitemap、llms.txt 都要移除這篇
+  await rest(`/rest/v1/posts?id=eq.${ids[0]}`, { method: "PATCH", body: { status: "draft" } });
+  expect(run()).toContain("已移除");
+  expect(fs.existsSync(file)).toBe(false);
+  expect(fs.readFileSync(path.join(out, "sitemap.xml"), "utf8")).not.toContain(ids[0]);
+  expect(fs.readFileSync(path.join(out, "llms.txt"), "utf8")).not.toContain("seed 文章 01");
+  await rest(`/rest/v1/posts?id=eq.${ids[0]}`, { method: "PATCH", body: { status: "published" } });
+});
+
+async function checkStaticPage(page) {
+  await page.goto(`/p/${ids[0]}.html`);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("seed 文章 01");
+  await expect(page.locator("#after-article")).toBeVisible();
+  await expect(page.locator("article#article[data-prerendered]")).toHaveCount(1);   // 沒有被重畫
+  await expect(page.locator("#related .card")).toHaveCount(3);                        // 相關文章仍由 JS 補上
+  await expect(page.locator("a.btn", { hasText: "返回文章列表" })).toHaveAttribute("href", /posts\.html/);
+  await page.locator("#like-btn").click();
+  await expect.poll(async () => (await rest(`/rest/v1/posts?id=eq.${ids[0]}&select=likes`)).json[0].likes).toBe(1);
+  await page.locator("#like-btn").click();                                             // 還原
+  await expect.poll(async () => (await rest(`/rest/v1/posts?id=eq.${ids[0]}&select=likes`)).json[0].likes).toBe(0);
+}
 
 test("不存在的文章顯示找不到", async ({ page }) => {
   await page.goto("/post.html?id=00000000-0000-0000-0000-000000000000");

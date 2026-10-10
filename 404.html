@@ -27,6 +27,13 @@
   <a href="./" id="home">回到魚魚出去玩</a>
 </main>
 <script>
+  // 剛發布的文章，靜態頁（p/編號.html）要等自動排程產生；在那之前先導到動態頁，讀者不會看到錯誤
+  (function () {
+    var m = location.pathname.match(/^(.*)\/p\/([0-9a-f-]{36})\.html$/i);
+    if (m) location.replace(m[1] + "/post.html?id=" + m[2]);
+  })();
+</script>
+<script>
   // GitHub Pages 的專案網址是 /repo名稱/，回首頁要回到第一層
   (function () {
     var seg = location.pathname.split("/").filter(Boolean);

@@ -6,8 +6,10 @@ import { articleHtml, bindArticle } from "../lib/article.js";
 initPage("posts");
 
 const $ = id => document.getElementById(id);
-const id = getParam("id");
+const id = getParam("id") || document.body.dataset.postId;     // 靜態頁的編號寫在 <body data-post-id>
 const article = $("article");
+// 每篇文章的「正式網址」是預先產生的靜態頁（內容完整，利於搜尋與分享預覽）
+const staticUrl = pid => new URL(`p/${pid}.html`, document.baseURI).href;
 
 function setMeta(name, value, attr = "name") {
   let el = document.head.querySelector(`meta[${attr}="${name}"]`);
@@ -36,32 +38,43 @@ async function load() {
   }
   if (!p) return notFound("找不到這篇文章", "可能已經被移除，或網址打錯了。");
 
-  // SEO / 分享資訊
-  const desc = (p.excerpt || p.body || "").replace(/\[照片\s*\d+\]|[#>*]/g, "").replace(/\s+/g, " ").trim().slice(0, 120);
-  document.title = `${p.title}｜魚魚出去玩`;
-  setMeta("description", desc);
-  setMeta("og:title", p.title, "property");
-  setMeta("og:description", desc, "property");
-  if (p.cover && p.cover.url) setMeta("og:image", p.cover.url, "property");
-  const ld = document.createElement("script");
-  ld.type = "application/ld+json";
-  ld.textContent = JSON.stringify({
-    "@context": "https://schema.org", "@type": "BlogPosting",
-    headline: p.title, description: desc, image: p.cover ? [p.cover.url] : undefined,
-    datePublished: p.published_at, dateModified: p.updated_at || p.published_at,
-    author: { "@type": "Person", name: "魚魚（榆芳）" }
-  });
-  document.head.appendChild(ld);
+  // 靜態頁的內容和資料庫一致（updated_at 相同）就直接沿用，只補上互動；否則（剛修改過、或是動態頁）重新畫
+  const prerendered = article.dataset.prerendered === "1" && article.dataset.updated === String(p.updated_at);
 
+  // SEO / 分享資訊（靜態頁在產生時已經寫好，這裡只處理動態頁）
+  const desc = (p.excerpt || p.body || "").replace(/\[照片\s*\d+\]|[#>*]/g, "").replace(/\s+/g, " ").trim().slice(0, 120);
   article.removeAttribute("aria-busy");
-  article.innerHTML = articleHtml(p);
-  if (p.status && p.status !== "published") {
-    article.insertAdjacentHTML("afterbegin", `<div class="preview-bar" role="status">草稿預覽：這篇還沒發布，只有登入的魚魚看得到</div>`);
-    setMeta("robots", "noindex");
+  if (!prerendered) {
+    document.title = `${p.title}｜魚魚出去玩`;
+    setMeta("description", desc);
+    setMeta("og:title", p.title, "property");
+    setMeta("og:description", desc, "property");
+    if (p.cover && p.cover.url) setMeta("og:image", p.cover.url, "property");
+    if (!document.head.querySelector('link[rel="canonical"]')) {
+      const c = document.createElement("link");
+      c.rel = "canonical";
+      c.href = staticUrl(p.id);
+      document.head.appendChild(c);
+    }
+    const ld = document.createElement("script");
+    ld.type = "application/ld+json";
+    ld.textContent = JSON.stringify({
+      "@context": "https://schema.org", "@type": "BlogPosting", inLanguage: "zh-Hant-TW",
+      headline: p.title, description: desc, image: p.cover ? [p.cover.url] : undefined,
+      datePublished: p.published_at, dateModified: p.updated_at || p.published_at,
+      mainEntityOfPage: staticUrl(p.id),
+      author: { "@type": "Person", name: "魚魚（榆芳）" }
+    });
+    document.head.appendChild(ld);
+    article.innerHTML = articleHtml(p);
+    if (p.status && p.status !== "published") {
+      article.insertAdjacentHTML("afterbegin", `<div class="preview-bar" role="status">草稿預覽：這篇還沒發布，只有登入的魚魚看得到</div>`);
+      setMeta("robots", "noindex");
+    }
+    [...article.querySelectorAll(".prose > *, .aside > *, .gallery")].forEach(el => el.classList.add("reveal"));
+    reveal(article);
   }
   bindArticle(article, p, openLightbox);
-  [...article.querySelectorAll(".prose > *, .aside > *, .gallery")].forEach(el => el.classList.add("reveal"));
-  reveal(article);
   $("after-article").hidden = false;
 
   setupBack();
@@ -146,7 +159,7 @@ function setupLike(p) {
 }
 
 function setupShare(p) {
-  const url = location.origin + location.pathname + `?id=${encodeURIComponent(p.id)}`;
+  const url = staticUrl(p.id);
   const menu = $("share-menu");
   const btn = $("share-btn");
   const panel = $("share-panel");
