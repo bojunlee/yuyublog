@@ -226,6 +226,8 @@
   .polaroid figcaption { font-size: .85rem; bottom: 6px; }
   .collage__note { font-size: var(--t-md); right: -4px; }
   .about-band__script { font-size: 2.1rem; }
+  .about-band__quote { font-size: 1rem; padding-left: var(--s-4); }
+  .sec-head__aside { font-size: .95rem; max-width: none; letter-spacing: 0; }
   .about-band__intro { font-size: var(--t-md); line-height: 1.95; }
   .facts { gap: var(--s-3); }
   .facts dd { font-size: var(--t-md); }

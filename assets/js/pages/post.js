@@ -1,5 +1,5 @@
 import { getParam, prefersReducedMotion } from "../lib/util.js";
-import { getPost, relatedPosts, likePost } from "../lib/data.js";
+import { getPost, relatedPosts, likePost, viewPost } from "../lib/data.js";
 import { initPage, cardHtml, stateHtml, reveal, stagger, toast, openLightbox } from "../lib/ui.js";
 import { articleHtml, bindArticle } from "../lib/article.js";
 
@@ -65,6 +65,7 @@ async function load() {
   $("after-article").hidden = false;
 
   setupBack();
+  setupViews(p);
   setupLike(p);
   setupShare(p);
   loadRelated(p);
@@ -80,6 +81,26 @@ function setupBack() {
       back.addEventListener("click", e => { if (history.length > 1) { e.preventDefault(); history.back(); } });
     }
   } catch { /* 用預設連結 */ }
+}
+
+// 同一個瀏覽器 6 小時內重複打開同一篇只算一次（避免重新整理刷數字）
+function setupViews(p) {
+  if (p.status && p.status !== "published") return;
+  const show = n => {
+    if (!(n > 0)) return;
+    $("view-n").textContent = Number(n).toLocaleString("zh-TW");
+    $("views").hidden = false;
+  };
+  show(p.views);
+  let seen = {};
+  try { seen = JSON.parse(localStorage.getItem("viewed") || "{}"); } catch { /* 無痕模式 */ }
+  if (Date.now() - (seen[p.id] || 0) < 6 * 3600 * 1000) return;
+  viewPost(p.id).then(n => {
+    if (n === null) return;
+    show(n);
+    seen[p.id] = Date.now();
+    try { localStorage.setItem("viewed", JSON.stringify(seen)); } catch { /* 忽略 */ }
+  }).catch(() => {});
 }
 
 function likedSet() {

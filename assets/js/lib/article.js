@@ -89,6 +89,7 @@ export function articleHtml(p) {
         ${where ? `<span>${icon("pin")}${esc(where)}</span>` : ""}
         ${date ? `<span>${icon("calendar")}<time datetime="${esc(date)}">${fmtDate(date)}</time></span>` : ""}
         <span>${icon("clock")}約 ${readingMinutes(p.body)} 分鐘閱讀</span>
+        <span id="views"${p.views > 0 ? "" : " hidden"}>${icon("eye")}<span id="view-n">${Number(p.views || 0).toLocaleString("zh-TW")}</span> 人看過</span>
       </div>
     </div>
     ${p.excerpt ? `<p class="standfirst">${esc(p.excerpt)}</p>` : ""}

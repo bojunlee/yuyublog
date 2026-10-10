@@ -158,6 +158,17 @@ export async function relatedPosts(post, n = 3) {
   return list.slice(0, n);
 }
 
+// 記一次閱讀。魚魚自己登入時不算；草稿不算（資料庫只會對已發布文章 +1）
+// 回傳最新人數，沒有計到（或資料庫還沒更新）回傳 null
+export async function viewPost(id) {
+  if (isDemo) return null;
+  const sb = await getClient();
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) return null;
+  const { data, error } = await sb.rpc("view_post", { pid: id });
+  return error ? null : data;
+}
+
 export async function likePost(id, delta) {
   if (isDemo) return null;
   const sb = await getClient();

@@ -86,6 +86,23 @@ test("按喜歡只對已發布文章有效，且不能用來改其他欄位", as
   expect(after.json[0].likes).toBe(1);
 });
 
+test("閱讀人數：只對已發布文章 +1，草稿不計，也不能被竄改", async () => {
+  const v1 = await rest("/rest/v1/rpc/view_post", { key: "anon", method: "POST", body: { pid: publishedId } });
+  expect(v1.json).toBe(1);
+  const v2 = await rest("/rest/v1/rpc/view_post", { key: "anon", method: "POST", body: { pid: publishedId } });
+  expect(v2.json).toBe(2);
+  const draft = await rest("/rest/v1/rpc/view_post", { key: "anon", method: "POST", body: { pid: draftId } });
+  expect(draft.json).toBeNull();
+  const missing = await rest("/rest/v1/rpc/view_post", { key: "anon", method: "POST", body: { pid: "00000000-0000-0000-0000-000000000000" } });
+  expect(missing.json).toBeNull();
+  // 訪客不能直接改，管理員編輯文章時也不能改數字
+  const patch = await rest(`/rest/v1/posts?id=eq.${publishedId}`, { key: "anon", method: "PATCH", body: { views: 9999 } });
+  expect(patch.status >= 400 || (Array.isArray(patch.json) && patch.json.length === 0)).toBe(true);
+  await rest(`/rest/v1/posts?id=eq.${publishedId}`, { key: "anon", token: adminToken, method: "PATCH", body: { views: 9999, title: "公開測試" } });
+  const after = await rest(`/rest/v1/posts?id=eq.${publishedId}&select=views`);
+  expect(after.json[0].views).toBe(2);
+});
+
 test("同時只會有一篇精選", async () => {
   const a = await rest("/rest/v1/posts", { method: "POST", body: { title: "精選A", status: "published", cover: COVER, featured: true } });
   const b = await rest("/rest/v1/posts", { method: "POST", body: { title: "精選B", status: "published", cover: COVER, featured: true } });

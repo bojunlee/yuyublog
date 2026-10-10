@@ -111,6 +111,17 @@ test("文章頁：照片、燈箱、喜歡、分享、相關文章", async ({ pa
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute("content", "seed 文章 01");
 });
 
+test("閱讀人數：顯示在文章頁，同一瀏覽器重複打開不重複計算", async ({ page }) => {
+  await rest(`/rest/v1/rpc/view_post`, { method: "POST", body: { pid: ids[1] } });          // 先有 1 人看過
+  await page.goto(`/post.html?id=${ids[1]}`);
+  await expect(page.locator("#views")).toBeVisible();
+  await expect(page.locator("#view-n")).toHaveText("2");                                      // 加上這次
+  await expect.poll(async () => (await rest(`/rest/v1/posts?id=eq.${ids[1]}&select=views`)).json[0].views).toBe(2);
+  await page.reload();
+  await expect(page.locator("#view-n")).toHaveText("2");                                      // 重新整理不再 +1
+  await expect.poll(async () => (await rest(`/rest/v1/posts?id=eq.${ids[1]}&select=views`)).json[0].views).toBe(2);
+});
+
 test("不存在的文章顯示找不到", async ({ page }) => {
   await page.goto("/post.html?id=00000000-0000-0000-0000-000000000000");
   await expect(page.getByRole("heading", { name: "找不到這篇文章" })).toBeVisible();

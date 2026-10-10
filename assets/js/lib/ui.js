@@ -149,7 +149,7 @@ function mountDemoRibbon() {
   const el = document.createElement("div");
   el.className = "demo-ribbon";
   el.setAttribute("role", "note");
-  el.innerHTML = `<span><b>示範內容</b>　尚未連接資料庫，畫面上的文章與照片僅供預覽設計</span>
+  el.innerHTML = `<span><b>示範內容</b>　尚未連接資料庫</span>
     <button type="button" aria-label="關閉提示">${icon("close")}</button>`;
   el.querySelector("button").addEventListener("click", () => {
     el.remove();

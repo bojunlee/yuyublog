@@ -266,3 +266,16 @@ test("登出後回到登入畫面，後台資料讀不到", async ({ page }) => 
   await page.goto("/admin/#/settings");
   await expect(page.getByRole("heading", { name: "嗨，魚魚！" })).toBeVisible();
 });
+
+test("魚魚自己登入時瀏覽文章，不會增加閱讀人數", async ({ page }) => {
+  const env = testEnv();
+  const cover = { path: "x.webp", url: "https://example.com/x.webp", thumb: "https://example.com/x.webp", w: 10, h: 10 };
+  const post = (await rest("/rest/v1/posts", { method: "POST", body: { title: "自己看不算數", status: "published", cover } })).json[0];
+  await login(page, env.admin.email, env.admin.password);
+  await expect(page.getByRole("heading", { name: "我的文章" })).toBeVisible();
+  await page.goto(`/post.html?id=${post.id}`);
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("自己看不算數");
+  await page.waitForTimeout(1500);
+  expect((await rest(`/rest/v1/posts?id=eq.${post.id}&select=views`)).json[0].views).toBe(0);
+  await rest(`/rest/v1/posts?id=eq.${post.id}`, { method: "DELETE" });
+});

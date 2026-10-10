@@ -474,7 +474,6 @@ body.nav-open { overflow: hidden; }
 .stat { padding-top: var(--s-4); border-top: 1px solid rgba(251, 246, 238, .25); }
 .stat b { display: block; font-family: var(--f-latin); font-size: clamp(2.6rem, 2rem + 2vw, 3.8rem); font-weight: 600; line-height: 1; }
 .stat span { font-size: var(--t-sm); letter-spacing: .16em; opacity: .8; }
-.voyage .btn--light { margin-top: var(--s-6); }
 
 /* 5.8 內頁標頭 */
 .page-head { padding-block: var(--s-8) var(--s-7); border-bottom: 1px solid var(--line); }
@@ -756,7 +755,16 @@ body.nav-open { overflow: hidden; }
   .hero__strip { gap: var(--s-3) var(--s-5); }
   .hero__strip b { font-size: 1.3rem; }
   .hero__actions .btn { flex: 1 1 auto; }
-  .footer-top { grid-template-columns: 1fr; gap: var(--s-6); }
+  /* 頁尾：品牌一整列、探索與分類並排、追蹤一整列，並去掉和上方結尾區重複的引言 */
+  .site-footer { padding-top: var(--s-7); }
+  .footer-top { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-6) var(--s-5); padding-bottom: var(--s-6); }
+  .footer-brand, .footer-col:last-child { grid-column: 1 / -1; }
+  .footer-brand p { max-width: none; margin-top: var(--s-3); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .footer-brand .footer-quote { display: none; }
+  .footer-col h3 { margin-bottom: var(--s-3); }
+  .footer-col ul { gap: 0; }
+  .footer-col li a { display: inline-block; padding-block: 6px; }
+  .footer-bottom { flex-direction: column; gap: 4px; padding-block: var(--s-4) calc(var(--s-4) + env(safe-area-inset-bottom)); }
   .stats { gap: var(--s-3); }
   .article-head { margin-top: -48px; }
   .article-hero__media { height: 56svh; min-height: 300px; }
