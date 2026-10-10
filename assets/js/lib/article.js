@@ -70,7 +70,7 @@ export function detailsHtml(d = {}) {
 export function articleHtml(p) {
   const cat = CATS[p.category] || CATS.travel;
   const photos = p.photos || [];
-  const { html: body, used } = renderBody(p.body, photos);
+  const { html: body, used } = renderBody(p.body, photos, p.title);
   const rest = photos.map((ph, i) => ({ ph, i })).filter(({ i }) => !used.has(i));
   const date = postDate(p);
   const where = [countryName(p.country_code), p.city, p.place].filter(Boolean).join(" · ");
@@ -78,7 +78,7 @@ export function articleHtml(p) {
 
   return `
   <div class="article-hero">
-    <div class="article-hero__media">${img(p.cover, { sizes: "100vw", alt: p.cover && p.cover.caption ? p.cover.caption : "", eager: true })}</div>
+    <div class="article-hero__media">${img(p.cover, { sizes: "100vw", alt: (p.cover && p.cover.caption) || [p.title, countryName(p.country_code), p.city].filter(Boolean).join("・"), eager: true })}</div>
   </div>
   <header class="article-head container">
     <div class="article-head__card">
@@ -104,7 +104,7 @@ export function articleHtml(p) {
       <div class="gallery__head"><h2 id="gallery-title">更多照片</h2><span class="eyebrow">${rest.length} photos</span></div>
       <div class="gallery__track" id="gallery-track" tabindex="0" aria-label="照片輪播，可左右滑動">
         ${rest.map(({ ph, i }) => `<figure class="gallery__item">
-          <button type="button" data-photo="${i}" aria-label="放大照片${ph.caption ? "：" + esc(ph.caption) : ""}">${img(ph, { sizes: "(min-width: 600px) 420px, 78vw", alt: ph.caption || "", small: true })}</button>
+          <button type="button" data-photo="${i}" aria-label="放大照片${ph.caption ? "：" + esc(ph.caption) : ""}">${img(ph, { sizes: "(min-width: 600px) 420px, 78vw", alt: ph.caption || `${p.title}（第 ${i + 1} 張照片）`, small: true })}</button>
           ${ph.caption ? `<figcaption>${esc(ph.caption)}</figcaption>` : ""}
         </figure>`).join("")}
       </div>

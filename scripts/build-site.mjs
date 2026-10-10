@@ -150,8 +150,20 @@ if (fs.existsSync(pdir)) for (const f of fs.readdirSync(pdir)) {
 }
 
 // ── 2. 固定頁面：canonical、og:url、結構化資料 ───────────
-function stamp(file, canonical, ld) {
+// 固定頁面的分享圖：魚魚在後台設定了首頁大圖（或大頭照）就用它，沒有就保留原本的預設圖
+// （按「用預設圖片」之後要能改回預設，所以一定有值）
+const DEFAULT_OG = { url: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=1200&h=630&q=70", w: 1200, h: 630 };
+const heroImg = profile.hero_image && profile.hero_image.url ? profile.hero_image : DEFAULT_OG;
+const avatarImg = profile.avatar && profile.avatar.url ? profile.avatar : null;
+function stamp(file, canonical, ld, image = heroImg) {
   let h = read(file);
+  {
+    h = h.replace(/<meta property="og:image:(width|height)"[^>]*>\n?/g, "").replace(/<meta name="twitter:image"[^>]*>\n?/g, "")
+         .replace(/<meta property="og:image" content="[^"]*">/,
+           `<meta property="og:image" content="${attr(image.url)}">` +
+           (image.w && image.h ? `\n<meta property="og:image:width" content="${image.w}">\n<meta property="og:image:height" content="${image.h}">` : "") +
+           `\n<meta name="twitter:image" content="${attr(image.url)}">`);
+  }
   h = h.replace(/<link rel="canonical"[^>]*>\n?/g, "").replace(/<meta property="og:url"[^>]*>\n?/g, "")
        .replace(/<script type="application\/ld\+json" id="site-ld">[\s\S]*?<\/script>\n?/g, "");
   let add = `<link rel="canonical" href="${canonical}">\n<meta property="og:url" content="${canonical}">`;
@@ -160,7 +172,7 @@ function stamp(file, canonical, ld) {
   write(file, h);
 }
 stamp("index.html", SITE, [website, person]);
-stamp("about.html", `${SITE}about.html`, [website, { "@type": "ProfilePage", "@id": `${SITE}about.html`, url: `${SITE}about.html`, name: `關於${nick}`, mainEntity: { "@id": `${SITE}about.html#person` } }, person]);
+stamp("about.html", `${SITE}about.html`, [website, { "@type": "ProfilePage", "@id": `${SITE}about.html`, url: `${SITE}about.html`, name: `關於${nick}`, mainEntity: { "@id": `${SITE}about.html#person` } }, person], avatarImg || heroImg);
 stamp("posts.html", `${SITE}posts.html`, null);
 stamp("footprints.html", `${SITE}footprints.html`, null);
 

@@ -134,16 +134,16 @@ function inline(s) {
       `<a href="${u}" target="_blank" rel="noopener noreferrer">${t}</a>`);
 }
 
-export function figureHtml(ph, n, { sizes = "(min-width: 900px) 860px, 100vw" } = {}) {
+export function figureHtml(ph, n, { sizes = "(min-width: 900px) 860px, 100vw", altBase = "" } = {}) {
   return `<figure class="art-figure${ph.w && ph.h && ph.h > ph.w ? " is-portrait" : ""}">
     <button type="button" class="art-figure__btn" data-photo="${n}" aria-label="放大第 ${n + 1} 張照片">
-      ${img(ph, { sizes, alt: ph.caption || "" })}
+      ${img(ph, { sizes, alt: ph.caption || (altBase ? `${altBase}（第 ${n + 1} 張照片）` : "") })}
     </button>
     ${ph.caption ? `<figcaption>${esc(ph.caption)}</figcaption>` : ""}
   </figure>`;
 }
 
-export function renderBody(text, photos = []) {
+export function renderBody(text, photos = [], altBase = "") {
   const used = new Set();
   const out = [];
   const blocks = String(text || "").replace(/\r\n/g, "\n").split(/\n{2,}/);
@@ -155,7 +155,7 @@ export function renderBody(text, photos = []) {
     if (lines.every(l => /^\[照片\s*\d+\]$/.test(l.trim()))) {
       for (const l of lines) {
         const n = parseInt(l.replace(/\D/g, ""), 10) - 1;
-        if (photos[n]) { used.add(n); out.push(figureHtml(photos[n], n)); }
+        if (photos[n]) { used.add(n); out.push(figureHtml(photos[n], n, { altBase })); }
       }
       continue;
     }

@@ -129,10 +129,21 @@ test("閱讀人數：顯示在文章頁，同一瀏覽器重複打開不重複�
 test("SEO：預先產生的文章靜態頁，內容完整且能正常互動", async ({ page }) => {
   const env = testEnv();
   const out = path.resolve("tests/results/site-build");
+  // 魚魚設定了首頁大圖與大頭照：固定頁面的分享圖要跟著換（關於頁用大頭照）
+  await rest("/rest/v1/profile?id=eq.1", { method: "PATCH", body: {
+    hero_image: { url: "https://example.test/hero.webp", w: 2000, h: 1333 }, avatar: { url: "https://example.test/me.webp", w: 800, h: 1000 } } });
   fs.rmSync(out, { recursive: true, force: true });
   const run = () => execFileSync("node", ["scripts/build-site.mjs", "https://example.test/blog/", `--out=${out}`],
     { env: { ...process.env, SUPABASE_URL: env.url, SUPABASE_ANON_KEY: env.anon }, encoding: "utf8" });
+  // 沒寫照片說明的文章：替代文字預設用「標題・國家・城市」
+  const bare = { url: photo.url, thumb: photo.thumb, w: 1200, h: 800 };
+  const noCap = (await rest("/rest/v1/posts", { method: "POST", body: { title: "無說明文章", status: "published", country_code: "JP", city: "京都", cover: bare, photos: [bare], body: "[照片 1]" } })).json[0];
   run();
+  const bareHtml = fs.readFileSync(path.resolve(out, "p", `${noCap.id}.html`), "utf8");
+  await rest(`/rest/v1/posts?id=eq.${noCap.id}`, { method: "DELETE" });
+  run();                                              // 刪掉測試文章後再產生一次，讓輸出回到只有 seed 文章的狀態
+  expect(bareHtml).toContain('alt="無說明文章・日本・京都"');
+  expect(bareHtml).toContain('alt="無說明文章（第 1 張照片）"');
 
   const file = path.join(out, "p", `${ids[0]}.html`);
   const html = fs.readFileSync(file, "utf8");
@@ -149,7 +160,15 @@ test("SEO：預先產生的文章靜態頁，內容完整且能正常互動", as
   // 其他輸出
   expect(fs.readFileSync(path.join(out, "sitemap.xml"), "utf8")).toContain(`https://example.test/blog/p/${ids[0]}.html`);
   expect(fs.readFileSync(path.join(out, "llms.txt"), "utf8")).toContain("seed 文章 01");
-  expect(fs.readFileSync(path.join(out, "index.html"), "utf8")).toContain('"@type":"WebSite"');
+  const indexHtml = fs.readFileSync(path.join(out, "index.html"), "utf8");
+  expect(indexHtml).toContain('"@type":"WebSite"');
+  expect(indexHtml).toContain('<meta property="og:image" content="https://example.test/hero.webp">');
+  expect(indexHtml).toContain('<meta property="og:image:width" content="2000">');
+  expect(indexHtml).toContain('<meta name="twitter:image" content="https://example.test/hero.webp">');
+  expect(fs.readFileSync(path.join(out, "about.html"), "utf8")).toContain('og:image" content="https://example.test/me.webp"');
+  // 文章頁的圖片都有替代文字（沒寫說明就用文章標題）
+  expect(html).toMatch(/<img[^>]*alt="測試照片"/);                      // 有寫說明就用說明
+  expect(html).not.toMatch(/<img(?![^>]*\balt=)[^>]*>/);
   const before = fs.readFileSync(path.join(out, "sitemap.xml"), "utf8");
   expect(run()).toContain("沒有任何變動");          // 沒有新文章 → 不產生變動（不會有多餘的 commit）
   expect(fs.readFileSync(path.join(out, "sitemap.xml"), "utf8")).toBe(before);
@@ -173,6 +192,10 @@ test("SEO：預先產生的文章靜態頁，內容完整且能正常互動", as
   expect(fs.readFileSync(path.join(out, "sitemap.xml"), "utf8")).not.toContain(ids[0]);
   expect(fs.readFileSync(path.join(out, "llms.txt"), "utf8")).not.toContain("seed 文章 01");
   await rest(`/rest/v1/posts?id=eq.${ids[0]}`, { method: "PATCH", body: { status: "published" } });
+  await rest("/rest/v1/profile?id=eq.1", { method: "PATCH", body: { hero_image: null, avatar: null } });
+  // 還原為預設圖後，分享圖要改回預設
+  run();
+  expect(fs.readFileSync(path.join(out, "index.html"), "utf8")).toContain("images.unsplash.com");
 });
 
 async function checkStaticPage(page) {
