@@ -12,7 +12,13 @@ const PAGES = [
   ["404", "/404.html"]
 ];
 
-// 這裡刻意不接資料庫，用示範內容檢查設計
+// 這裡刻意不接資料庫，用示範內容檢查設計（把 config.js 換成空白設定，強制示範模式）
+test.beforeEach(async ({ page }) => {
+  await page.route("**/assets/js/config.js", route => route.fulfill({
+    contentType: "text/javascript", body: 'export default { supabaseUrl: "", supabaseAnonKey: "" };'
+  }));
+});
+
 for (const [name, url] of PAGES) {
   test(`${name}：沒有水平捲動`, async ({ page }, info) => {
     await page.goto(url);

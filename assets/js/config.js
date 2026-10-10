@@ -3,6 +3,6 @@
 // 絕對不要把 service_role（secret）key 放進任何網站檔案。
 // 兩個值都空白時，公開網站會顯示「示範內容」，後台會顯示設定說明。
 export default {
-  supabaseUrl: "",
-  supabaseAnonKey: ""
+  supabaseUrl: "https://krumircgaecqjawnotlb.supabase.co",
+  supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtydW1pcmNnYWVjcWphd25vdGxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2MzUyMzYsImV4cCI6MjEwNzIxMTIzNn0.o_wTk-7Nyy46Bs1hL_wmmpDIraBZqjRu2Dtsb3v_EP0"
 };
