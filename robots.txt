@@ -3,4 +3,4 @@ Allow: /
 
 # 後台不列在這裡（robots.txt 是公開檔案，列出來等於告訴別人入口在哪）；後台頁面本身有 noindex，不會被搜尋引擎收錄。
 # 上線後執行 node scripts/make-sitemap.mjs https://你的網址/ 產生 sitemap.xml，並把下一行改成正確網址
-# Sitemap: https://你的網址/sitemap.xml
+Sitemap: https://bojunlee.github.io/yuyublog/sitemap.xml
